@@ -1,19 +1,23 @@
 pipeline {
     agent any
     stages {
-        stage('---clean---') {
+        stage('clean repo') {
             steps {
-                sh "mvn clean"
+                bat "rmdir /s /q my-app-1"
+                bat "git clone https://github.com/abhib5/my-app-1.git"
+                bat "mvn clean -f my-app-1"
             }
         }
-        stage('--test--') {
+        stage('Test') {
             steps {
-                sh "mvn test"
+                bat "mvn test -f my-app-1"
+                
             }
         }
-        stage('--package--') {
+        stage('Deploy') {
             steps {
-                sh "mvn package"
+                bat "mvn package -f my-app-1"
+                
             }
         }
     }
